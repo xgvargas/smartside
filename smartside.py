@@ -6,7 +6,7 @@ import re
 
 
 __author__ = 'Gustavo Vargas <xgvargas@gmail.com>'
-__version_info__ = ('0', '1', '0')
+__version_info__ = ('0', '1', '1')
 __version__ = '.'.join(__version_info__)
 __all__ = [
     'SmartSide',
@@ -25,11 +25,9 @@ class SmartSide(object):
         """
         if hasattr(self, wgt):
             wgtobj = getattr(self, wgt)
-            print wgtobj
             if isinstance(wgtobj, QWidget):
                 if hasattr(wgtobj, sig):
                     sigobj = getattr(wgtobj, sig)
-                    print sigobj
                     sigobj.connect(func)
                     return 0
         return 1
@@ -42,7 +40,6 @@ class SmartSide(object):
         """
         if hasattr(self, l):
             t = getattr(self, l)
-            print t
 
             def proc(inp):
                 w = inp.strip()
@@ -91,7 +88,6 @@ class SmartSide(object):
                 func = getattr(self, o)
                 lst, sig = o.split('__')
                 lst = self._process_list(lst[5:])  #5 to keep _ at beggining
-                print repr(lst)
                 for w in lst:
                     if self._do_connection(w, sig, func):
                         print 'Failed to connect', o
