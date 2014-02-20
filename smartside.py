@@ -14,15 +14,21 @@ __all__ = [
 
 class SmartSide(object):
     """
+    Makes some PySide task easier.
     """
 
     def _do_connection(self, wgt, sig, func):
         """
         Make a connection between a GUI widget and a callable.
 
-        wgt and sig are string with widget and signal name
+        wgt and sig are strings with widget and signal name
         func is a callable for that signal
         """
+        #new style  (we use this)
+        #self.btn_name.clicked.connect(self.on_btn_name_clicked)
+        #old style
+        #self.connect(self.btn_name, SIGNAL('clicked()'), self.on_btn_name_clicked)
+
         if hasattr(self, wgt):
             wgtobj = getattr(self, wgt)
             if isinstance(wgtobj, QWidget):
@@ -91,9 +97,6 @@ class SmartSide(object):
                 for w in lst:
                     if self._do_connection(w, sig, func):
                         print 'Failed to connect', o
-
-        #self.btn_add.clicked.connect(self.on_btn_add_clicked)
-        #self.connect(self.btn_inv, SIGNAL('clicked()'), self.sououtro)
 
     def print_signals_and_slots(self):
         """
