@@ -1,12 +1,14 @@
 #-*- coding: utf-8 -*-
 
 
-from PySide.QtGui import QWidget
+from PySide.QtGui import QWidget, QAction
+from PySide.QtCore import Signal
+
 import re
 
 
 __author__ = 'Gustavo Vargas <xgvargas@gmail.com>'
-__version_info__ = ('0', '1', '1')
+__version_info__ = ('0', '1', '2')
 __version__ = '.'.join(__version_info__)
 __all__ = [
     'SmartSide',
@@ -31,7 +33,7 @@ class SmartSide(object):
 
         if hasattr(self, wgt):
             wgtobj = getattr(self, wgt)
-            if isinstance(wgtobj, QWidget):
+            if isinstance(wgtobj, QWidget) or isinstance(wgtobj, QAction):
                 if hasattr(wgtobj, sig):
                     sigobj = getattr(wgtobj, sig)
                     sigobj.connect(func)
@@ -117,9 +119,11 @@ class SmartSide(object):
         """
         for o in dir(self):
             obj= getattr(self, o)
-            if isinstance(obj, QWidget):
+            #print o, type(obj)
+            if isinstance(obj, QWidget) or isinstance(obj, QAction):
                 for c in dir(obj):
                     cobj = getattr(obj, c)
-                    if isinstance(cobj, QtCore.Signal):
-                        print '_on_{}__{}(self):'.format(o, c)
+                    if isinstance(cobj, Signal):
+                        print 'def _on_{}__{}(self):'.format(o, c)
                 print '-'*30
+
