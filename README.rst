@@ -1,7 +1,7 @@
 SmartSide is one of many available ways to have PySide signals connected in a easy way.
 
 Example of what it can do for you
-=================================
+---------------------------------
 
 Suppose you have designed a GUI using *Qt Designer*
 
@@ -67,12 +67,15 @@ we have selected a few widgets by its explicit name and also all widget whose na
 and have ``'log'`` in some part of its name. All of them are going to be connected to
 ``_when_myfuncs__clicked``.
 
-More to come
-------------
+Yes, it works with actions too. Like ``def _on_actionTest__triggered(self):``
 
-A few other functions are planed for future versions.
+Change History
+--------------
 
-----------------------------------
+:0.1.2: Added QAction support; For every QAction created before calling auto_connect() you can use ``def _on_action_name__clicked(self):`` like you do with signals.
+:0.1.1: Small fix.
+
+------------------
 
 Development:
     https://github.com/xgvargas/smartside - please use this space if you found a problem or think any other task on PySide can be simplified.
