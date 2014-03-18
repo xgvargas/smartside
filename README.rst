@@ -67,11 +67,19 @@ we have selected a few widgets by its explicit name and also all widget whose na
 and have ``'log'`` in some part of its name. All of them are going to be connected to
 ``_when_myfuncs__clicked``.
 
-Yes, it works with actions too. Like ``def _on_actionTest__triggered(self):``
+Yes, it works with actions too. Like ``def _on_actionTest__triggered(self):``. This is usefull when you create context menu by code. Just remember to call ``auto_create`` after menu creation.
+
+Show icon on Windows taskbar
+----------------------------
+
+Usually Windows 7+ executes Python scripts as a group and put every icon you define to your GUI as a child of Python's taskbar icon, since python actually hosts your code. This happens even if you give ``.pyw`` as extension for your python script.
+
+To solve this you have to tell Windows your script is an application by calling ``smartside.setAsApplication()`` and pass to this function an unique identifier for your script, like: 'company.product.version'.
 
 Change History
 --------------
 
+:0.1.3: Added ``setAsApplication``.
 :0.1.2: Added QAction support; For every QAction created before calling auto_connect() you can use ``def _on_action_name__clicked(self):`` like you do with signals.
 :0.1.1: Small fix.
 
