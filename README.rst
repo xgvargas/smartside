@@ -9,10 +9,10 @@ Compile it with:
 
 .. sourcecode:: bash
 
-    pyside-uic.exe myform.ui -o myform_ui.py
+    $ pyside-uic.exe myform.ui -o myform_ui.py
 
     #if you have resources included compile them too
-    pyside-rcc.exe myresources.qrc -o myresources_rc.py
+    $ pyside-rcc.exe myresources.qrc -o myresources_rc.py
 
 
 Then use a code like this to show your form and bind some signals:
@@ -61,13 +61,9 @@ First we use ``setupUi`` as usual to create the interface.
 
 Then ``auto_connect`` will connect member functions to signals when they match.
 
-The last case use a multiple connection, so more then one widgets will call the same
-callback function. You can also use regex to select related widgets. In the example above
-we have selected a few widgets by its explicit name and also all widget whose name starts with ``'btn\_'``
-and have ``'log'`` in some part of its name. All of them are going to be connected to
-``_when_myfuncs__clicked``.
+The last case use a multiple connection, so more then one widgets will call the same callback function. You can also use regex to select related widgets. In the example above we have selected a few widgets by its explicit name and also all widget whose name starts with ``'btn\_'`` and have ``'log'`` in some part of its name. All of them are going to be connected to ``_when_myfuncs__clicked``.
 
-Yes, it works with actions too. Like ``def _on_actionTest__triggered(self):``. This is usefull when you create context menu by code. Just remember to call ``auto_create`` after menu creation.
+Yes, it works with actions too. Like ``def _on_actionTest__triggered(self):``. This is usefull when you create context menu by code. Just remember to call ``auto_create`` *after* menu creation.
 
 Show icon on Windows taskbar
 ----------------------------
