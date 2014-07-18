@@ -114,16 +114,16 @@ class SmartSide(object):
 
         if hasattr(self, wgt):
             wgtobj = getattr(self, wgt)
-            if isinstance(wgtobj, QWidget) or isinstance(wgtobj, QAction):
-                if hasattr(wgtobj, sig):
-                    sigobj = getattr(wgtobj, sig)
+            if hasattr(wgtobj, sig):
+                sigobj = getattr(wgtobj, sig)
+                if isinstance(sigobj, Signal):
                     sigobj.connect(func)
                     return 0
         return 1
 
     def _process_list(self, l):
         """
-        Process a list of widget names.
+        Processes a list of widget names.
 
         If any name is between `` then it is supposed to be a regex.
         """
@@ -135,7 +135,7 @@ class SmartSide(object):
 
                 if w.startswith('`'):
                     r = re.compile(w[1:-1])
-                    return [u for u in [m.group() for m in [r.match(x) for x in dir(self)] if m] if isinstance(getattr(self, u), QWidget)]
+                    return [u for u in [m.group() for m in [r.match(x) for x in dir(self)] if m] if isinstance(getattr(self, u), QObject)]
                 else:
                     return [w]
 
@@ -201,10 +201,12 @@ class SmartSide(object):
         for o in dir(self):
             obj= getattr(self, o)
             #print o, type(obj)
-            if isinstance(obj, QWidget) or isinstance(obj, QAction):
-                for c in dir(obj):
-                    cobj = getattr(obj, c)
-                    if isinstance(cobj, Signal):
-                        print 'def _on_{}__{}(self):'.format(o, c)
-                print '-'*30
+            div = False
+            for c in dir(obj):
+                cobj = getattr(obj, c)
+                if isinstance(cobj, Signal):
+                    print 'def _on_{}__{}(self):'.format(o, c)
+                    div = True
+
+            if div: print '-'*30
 
