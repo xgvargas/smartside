@@ -22,7 +22,8 @@ setup(
     author='Gustavo vargas',
     author_email='xgvargas@gmail.com',
     url='https://github.com/xgvargas/smartside',
-    py_modules = ['smartside'],
+    # py_modules = ['smartside'],
+    packages = ['smartside'],
     install_requires=install_requires,
     classifiers=[
         'Development Status :: 5 - Production/Stable',
