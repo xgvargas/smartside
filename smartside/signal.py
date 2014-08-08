@@ -12,7 +12,7 @@ __all__ = ['SmartSide']
 
 class SmartSignal(object):
     """
-    Makes some PySide task easier.
+    Makes connections in PySide easier.
     """
 
     def _do_connection(self, wgt, sig, func):
