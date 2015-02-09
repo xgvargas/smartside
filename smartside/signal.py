@@ -1,8 +1,8 @@
 #-*- coding: utf-8 -*-
 
 
-from PySide.QtGui import QWidget, QAction
-from PySide.QtCore import Signal
+# from PySide.QtGui import QWidget, QAction
+from PySide.QtCore import Signal, QObject
 
 import re
 
