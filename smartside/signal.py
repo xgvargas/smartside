@@ -1,37 +1,17 @@
 #-*- coding: utf-8 -*-
 
 
-from PySide.QtGui import QWidget, QAction
-from PySide.QtCore import Signal
-
+from __future__ import print_function
+from PySide.QtCore import Signal, QObject
 import re
 
 
-__author__ = 'Gustavo Vargas <xgvargas@gmail.com>'
-__version_info__ = ('0', '1', '3')
-__version__ = '.'.join(__version_info__)
-__all__ = [
-    'SmartSide',
-    'setAsApplication'
-]
+__all__ = ['SmartSide']
 
 
-def setAsApplication(myappid):
+class SmartSignal(object):
     """
-    Tells Windows this is an independent application with an unique icon on task bar.
-
-    id is an unique string to identify this application, like: 'mycompany.myproduct.subproduct.version'
-    """
-    import os
-
-    if os.name == 'nt':
-        import ctypes
-        ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
-
-
-class SmartSide(object):
-    """
-    Makes some PySide task easier.
+    Makes connections in PySide easier.
     """
 
     def _do_connection(self, wgt, sig, func):
@@ -48,16 +28,16 @@ class SmartSide(object):
 
         if hasattr(self, wgt):
             wgtobj = getattr(self, wgt)
-            if isinstance(wgtobj, QWidget) or isinstance(wgtobj, QAction):
-                if hasattr(wgtobj, sig):
-                    sigobj = getattr(wgtobj, sig)
+            if hasattr(wgtobj, sig):
+                sigobj = getattr(wgtobj, sig)
+                if isinstance(sigobj, Signal):
                     sigobj.connect(func)
                     return 0
         return 1
 
     def _process_list(self, l):
         """
-        Process a list of widget names.
+        Processes a list of widget names.
 
         If any name is between `` then it is supposed to be a regex.
         """
@@ -69,7 +49,7 @@ class SmartSide(object):
 
                 if w.startswith('`'):
                     r = re.compile(w[1:-1])
-                    return [u for u in [m.group() for m in [r.match(x) for x in dir(self)] if m] if isinstance(getattr(self, u), QWidget)]
+                    return [u for u in [m.group() for m in [r.match(x) for x in dir(self)] if m] if isinstance(getattr(self, u), QObject)]
                 else:
                     return [w]
 
@@ -105,7 +85,7 @@ class SmartSide(object):
                 func = getattr(self, o)
                 wgt, sig = o.split('__')
                 if self._do_connection(wgt[4:], sig, func):
-                    print 'Failed to connect', o
+                    print('Failed to connect', o)
 
             if o.startswith('_when_') and '__' in o:
                 func = getattr(self, o)
@@ -113,7 +93,7 @@ class SmartSide(object):
                 lst = self._process_list(lst[5:])  #5 to keep _ at beggining
                 for w in lst:
                     if self._do_connection(w, sig, func):
-                        print 'Failed to connect', o
+                        print('Failed to connect', o)
 
     def print_signals_and_slots(self):
         """
@@ -124,9 +104,9 @@ class SmartSide(object):
         for i in xrange(self.metaObject().methodCount()):
              m = self.metaObject().method(i)
              if m.methodType() == QMetaMethod.MethodType.Signal:
-                 print "SIGNAL: sig=", m.signature(), "hooked to nslots=", self.receivers(SIGNAL(m.signature()))
+                 print("SIGNAL: sig=", m.signature(), "hooked to nslots=", self.receivers(SIGNAL(m.signature())))
              elif m.methodType() == QMetaMethod.MethodType.Slot:
-                 print "SLOT: sig=", m.signature()
+                 print("SLOT: sig=", m.signature())
 
     def print_all_signals(self):
         """
@@ -135,10 +115,12 @@ class SmartSide(object):
         for o in dir(self):
             obj= getattr(self, o)
             #print o, type(obj)
-            if isinstance(obj, QWidget) or isinstance(obj, QAction):
-                for c in dir(obj):
-                    cobj = getattr(obj, c)
-                    if isinstance(cobj, Signal):
-                        print 'def _on_{}__{}(self):'.format(o, c)
-                print '-'*30
+            div = False
+            for c in dir(obj):
+                cobj = getattr(obj, c)
+                if isinstance(cobj, Signal):
+                    print('def _on_{}__{}(self):'.format(o, c))
+                    div = True
+
+            if div: print('-'*30)
 
