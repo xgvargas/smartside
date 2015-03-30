@@ -1,9 +1,8 @@
 #-*- coding: utf-8 -*-
 
 
-# from PySide.QtGui import QWidget, QAction
+from __future__ import print_function
 from PySide.QtCore import Signal, QObject
-
 import re
 
 
@@ -86,7 +85,7 @@ class SmartSignal(object):
                 func = getattr(self, o)
                 wgt, sig = o.split('__')
                 if self._do_connection(wgt[4:], sig, func):
-                    print 'Failed to connect', o
+                    print('Failed to connect', o)
 
             if o.startswith('_when_') and '__' in o:
                 func = getattr(self, o)
@@ -94,7 +93,7 @@ class SmartSignal(object):
                 lst = self._process_list(lst[5:])  #5 to keep _ at beggining
                 for w in lst:
                     if self._do_connection(w, sig, func):
-                        print 'Failed to connect', o
+                        print('Failed to connect', o)
 
     def print_signals_and_slots(self):
         """
@@ -105,9 +104,9 @@ class SmartSignal(object):
         for i in xrange(self.metaObject().methodCount()):
              m = self.metaObject().method(i)
              if m.methodType() == QMetaMethod.MethodType.Signal:
-                 print "SIGNAL: sig=", m.signature(), "hooked to nslots=", self.receivers(SIGNAL(m.signature()))
+                 print("SIGNAL: sig=", m.signature(), "hooked to nslots=", self.receivers(SIGNAL(m.signature())))
              elif m.methodType() == QMetaMethod.MethodType.Slot:
-                 print "SLOT: sig=", m.signature()
+                 print("SLOT: sig=", m.signature())
 
     def print_all_signals(self):
         """
@@ -120,8 +119,8 @@ class SmartSignal(object):
             for c in dir(obj):
                 cobj = getattr(obj, c)
                 if isinstance(cobj, Signal):
-                    print 'def _on_{}__{}(self):'.format(o, c)
+                    print('def _on_{}__{}(self):'.format(o, c))
                     div = True
 
-            if div: print '-'*30
+            if div: print('-'*30)
 

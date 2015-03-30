@@ -6,17 +6,17 @@ from code import InteractiveInterpreter
 import sys
 
 
-__all__ = ['ConsoleWdg']
+__all__ = ['ConsoleWidget']
 
 
-class ConsoleWdg(QPlainTextEdit):
+class ConsoleWidget(QPlainTextEdit):
     """
     """
 
     def __init__(self, *args, **kwargs):
         """
         """
-        super(ConsoleWdg, self).__init__(*args, **kwargs)
+        super(ConsoleWidget, self).__init__(*args, **kwargs)
         self.setLineWrapMode(QPlainTextEdit.NoWrap)
         self.setMaximumBlockCount(50)
         self.setTabChangesFocus(True)

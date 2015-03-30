@@ -1,7 +1,7 @@
 #-*- coding: utf-8 -*-
 
 __author__ = 'Gustavo Vargas <xgvargas@gmail.com>'
-__version_info__ = ('0', '1', '4')
+__version_info__ = ('0', '1', '5')
 __version__ = '.'.join(__version_info__)
 
 

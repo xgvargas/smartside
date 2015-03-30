@@ -6,6 +6,8 @@ import pkg_resources
 import codecs
 import smartside
 
+__version__ = '.'.join( ('0', '1', '5') )
+
 
 with codecs.open('README.rst', encoding='utf-8') as f:
     long_description = f.read()
@@ -15,7 +17,7 @@ with open("requirements.txt", "r") as f:
 
 setup(
     name='smartside',
-    version=smartside.__version__,
+    version=__version__,
     license="Apache",
     description='Makes PySide a little smarter.',
     long_description=long_description,
@@ -34,6 +36,8 @@ setup(
         'Programming Language :: Python',
         'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3.3',
+        'Programming Language :: Python :: 3.4',
         'Topic :: Software Development :: Build Tools',
     ],
 )

@@ -72,9 +72,20 @@ Usually Windows 7+ executes Python scripts as a group and put every icon you def
 
 To solve this you have to tell Windows your script is an application by calling ``smartside.setAsApplication()`` and pass to this function an unique identifier for your script, like: 'company.product.version'.
 
+Console Widget
+--------------
+
+Using UI Designer promote a QPlainTextEdit to ``ConsoleWidget``.
+
+Then, inside ``__init__`` of this form use: ``self.name_of_widget.setLocals({'name': object, 'me': self})``.
+
+This will make a promoted QPlainTextEdit to become a python console with access to two objects: ``name`` and ``me``.
+
 Change History
 --------------
 
+:0.1.5: Added support to python 3.
+:0.1.4: Added ``ConsoleWidget class``.
 :0.1.3: Added ``setAsApplication``.
 :0.1.2: Added QAction support; For every QAction created before calling auto_connect() you can use ``def _on_action_name__clicked(self):`` like you do with signals.
 :0.1.1: Small fix.
