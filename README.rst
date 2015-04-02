@@ -19,31 +19,33 @@ Then use a code like this to show your form and bind some signals:
 
 .. sourcecode:: python
 
-    from PySide.QtGui import *
-    from PySide.QtCore import *
     import sys
-    from myform_ui import *
-    from smartside import *
+    from myform_ui import *   # this will also include `QtCore` and `QtGui`
+    import smartside.signal as smartsignal
 
-    class MyApplication(QtGui.QMainWindow, Ui_MainWindow, SmartSide):
+    class MyApplication(QtGui.QMainWindow, Ui_MainWindow, smartsignal.SmartSignal):
         def __init__(self, parent=None):
             super(MyApplication, self).__init__(parent)
             self.setupUi(self)
+
+            # create any local UI object here, so they signal are
+            # going to be auto-connected too
+
             self.auto_connect()
 
-        #will respond to stateChanged signal from checkBox widget
-        #notice the double underline between widget name and signal name
+        # will respond to stateChanged signal from checkBox widget
+        # notice the double underline between widget name and signal name
         def _on_checkBox__stateChanged(self):
             print 'check', self.sender().isChecked()
 
-        #will respond to pressed signal of btn_add widget
+        # will respond to `pressed` signal of btn_add widget
         def _on_btn_add__pressed(self):
             print 'btn_add was pressed'
 
-        #list some widgets and can also use regex `regex`, to select multiples
-        #starting with underline is mandatory
+        # list some widgets and use regex `regex`, to select multiples.
+        # starting with underline is mandatory
         _myfuncs = 'btn_base, btn_format, `btn_.+log.+`, btn_sqr'
-        #will respond to clicked signal of all widget listed above
+        # will respond to clicked signal of all widget listed above
         def _when_myfuncs__clicked(self):
             print 'multiples', self.sender()
 
@@ -51,7 +53,7 @@ Then use a code like this to show your form and bind some signals:
         app = QtGui.QApplication(sys.argv)
         window = MyApplication()
         window.show()
-        #uncomment line below to print a list of ALL signals available on your form
+        # uncomment line below to print a list of ALL signals available on your form
         #window.print_all_signals()
         sys.exit(app.exec_())
 
@@ -63,7 +65,7 @@ Then ``auto_connect`` will connect member functions to signals when they match.
 
 The last case use a multiple connection, so more then one widgets will call the same callback function. You can also use regex to select related widgets. In the example above we have selected a few widgets by its explicit name and also all widget whose name starts with ``'btn\_'`` and have ``'log'`` in some part of its name. All of them are going to be connected to ``_when_myfuncs__clicked``.
 
-Yes, it works with actions too. Like ``def _on_actionTest__triggered(self):``. This is usefull when you create context menu by code. Just remember to call ``auto_create`` *after* menu creation.
+Yes, it works with actions too. Like ``def _on_actionTest__triggered(self):``. This is usefull when you create context menu by code. Just remember to call ``auto_connect`` *after* menu creation.
 
 Show icon on Windows taskbar
 ----------------------------
@@ -72,14 +74,29 @@ Usually Windows 7+ executes Python scripts as a group and put every icon you def
 
 To solve this you have to tell Windows your script is an application by calling ``smartside.setAsApplication()`` and pass to this function an unique identifier for your script, like: 'company.product.version'.
 
+.. sourcecode:: python
+
+    # ....
+
+    if __name__ == "__main__":
+
+        from smartside import setAsApplication
+        setAsApplication('example_co.exampleProd.'+__version__)
+
+        app = QtGui.QApplication(sys.argv)
+        window = MyApplication()
+        window.show()
+        sys.exit(app.exec_())
+
+
 Console Widget
 --------------
 
-Using UI Designer promote a QPlainTextEdit to ``ConsoleWidget``.
+Using Qt Designer promote a QPlainTextEdit to ``ConsoleWidget``, and use ``smartside.console`` as header (source).
 
 Then, inside ``__init__`` of this form use: ``self.name_of_widget.setLocals({'name': object, 'me': self})``.
 
-This will make a promoted QPlainTextEdit to become a python console with access to two objects: ``name`` and ``me``.
+This will make the promoted QPlainTextEdit to become a python console with access to two objects: ``name`` and ``me``.
 
 Change History
 --------------
