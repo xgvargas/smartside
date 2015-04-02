@@ -4,7 +4,6 @@
 from setuptools import setup
 import pkg_resources
 import codecs
-import smartside
 
 __version__ = '.'.join( ('0', '1', '5') )
 
