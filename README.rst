@@ -84,6 +84,7 @@ This will make a promoted QPlainTextEdit to become a python console with access 
 Change History
 --------------
 
+:0.1.6: Fixed setup typo.
 :0.1.5: Added support to python 3.
 :0.1.4: Added ``ConsoleWidget class``.
 :0.1.3: Added ``setAsApplication``.
