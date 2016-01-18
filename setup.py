@@ -4,9 +4,8 @@
 from setuptools import setup
 import pkg_resources
 import codecs
-import smartside
 
-__version__ = '.'.join( ('0', '1', '5') )
+__version__ = '.'.join( ('0', '1', '7') )
 
 
 with codecs.open('README.rst', encoding='utf-8') as f:
