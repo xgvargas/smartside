@@ -5,7 +5,7 @@ from setuptools import setup
 import pkg_resources
 import codecs
 
-__version__ = '.'.join( ('0', '1', '6') )
+__version__ = '.'.join( ('0', '1', '7') )
 
 
 with codecs.open('README.rst', encoding='utf-8') as f:

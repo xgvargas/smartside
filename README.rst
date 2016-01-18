@@ -11,7 +11,7 @@ Compile it with:
 
     $ pyside-uic.exe myform.ui -o myform_ui.py
 
-    #if you have resources included compile them too
+    # if you have resources included compile them too
     $ pyside-rcc.exe myresources.qrc -o myresources_rc.py
 
 
@@ -53,8 +53,10 @@ Then use a code like this to show your form and bind some signals:
         app = QtGui.QApplication(sys.argv)
         window = MyApplication()
         window.show()
+
         # uncomment line below to print a list of ALL signals available on your form
-        #window.print_all_signals()
+        # window.print_all_signals()
+
         sys.exit(app.exec_())
 
 Your form is supposed to be called *Ui_MainWindow* in this example.
@@ -98,12 +100,59 @@ Then, inside ``__init__`` of this form use: ``self.name_of_widget.setLocals({'na
 
 This will make the promoted QPlainTextEdit to become a python console with access to two objects: ``name`` and ``me``.
 
+
+Language
+--------
+
+The function ``getBestTranslation`` is used to discover the best translation file available for an app.
+
+It will look in a folder for a ``.qm`` file in the following order:
+
+- en-US.qm
+- en_US.qm
+- en.qm
+
+You can specify a list of desired languages or let the function to check the system languages. If no translation is found the native language will be used.
+
+.. sourcecode:: python
+
+    # ....
+
+    if __name__ == "__main__":
+
+        from smartside import getBestTranslation
+
+        # this will look for translations inside folder ./i18n
+        # it will search by system languages
+        translator = getBestTranslation('i18n')
+
+        app = QtGui.QApplication(sys.argv)
+        app.installTranslator(translator)
+
+        window = MyApp()
+        window.show()
+        sys.exit(app.exec_())
+
+.. sourcecode:: python
+
+    # if you want to specify the languages
+    translator = getBestTranslation('language', ['pt-BR', 'es'])
+
+In this case it will try:
+
+- language/pt-BR.qm
+- language/pt_BR.qm
+- language/pt.qm
+- language/es.qm
+
+
 Change History
 --------------
 
+:0.1.7: Added language locator.
 :0.1.6: Fixed setup typo.
 :0.1.5: Added support to python 3.
-:0.1.4: Added ``ConsoleWidget class``.
+:0.1.4: Added ``ConsoleWidget`` class.
 :0.1.3: Added ``setAsApplication``.
 :0.1.2: Added QAction support; For every QAction created before calling auto_connect() you can use ``def _on_action_name__clicked(self):`` like you do with signals.
 :0.1.1: Small fix.
