@@ -1,7 +1,7 @@
 #-*- coding: utf-8 -*-
 
 __author__ = 'Gustavo Vargas <xgvargas@gmail.com>'
-__version_info__ = ('0', '1', '7')
+__version_info__ = ('0', '2', '0')
 __version__ = '.'.join(__version_info__)
 
 from PySide import QtCore

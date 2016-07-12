@@ -5,7 +5,7 @@ from setuptools import setup
 import pkg_resources
 import codecs
 
-__version__ = '.'.join( ('0', '1', '7') )
+__version__ = '.'.join( ('0', '2', '0') )
 
 
 with codecs.open('README.rst', encoding='utf-8') as f:
@@ -37,6 +37,7 @@ setup(
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
         'Topic :: Software Development :: Build Tools',
     ],
 )
